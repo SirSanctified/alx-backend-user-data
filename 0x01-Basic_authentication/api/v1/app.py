@@ -47,6 +47,7 @@ def forbidden_handler(error) -> str:
 
 @app.before_request
 def pre_request():
+    """Validate a request"""
     if auth:
         excluded_paths = [
             '/api/v1/status/',
