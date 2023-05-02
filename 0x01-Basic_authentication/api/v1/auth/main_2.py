@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """ Main 2
 """
-import basic_auth
 
-a = basic_auth.BasicAuth()
+from api.v1.auth.basic_auth import BasicAuth
+
+
+a = BasicAuth()
 
 print(a.extract_base64_authorization_header(None))
 print(a.extract_base64_authorization_header(89))
