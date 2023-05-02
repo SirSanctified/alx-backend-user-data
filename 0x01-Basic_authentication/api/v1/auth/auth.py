@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Skeleton authentication class"""
+
 from typing import List, TypeVar
 from flask import request
 
