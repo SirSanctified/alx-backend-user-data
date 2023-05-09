@@ -6,8 +6,8 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 
-@app.route('/')
-def root(strict_slashes=False):
+@app.route('/', methods=["GET"], strict_slashes=False)
+def root():
     """Return a dummy JSON payload"""
     return jsonify({"message": "Bienvenue"})
 
