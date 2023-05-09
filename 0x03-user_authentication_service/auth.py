@@ -3,14 +3,20 @@
 Authentication module
 """
 
-from user import User
 import bcrypt
+from user import User
 from db import DB
+from uuid import uuid4
 
 
 def _hash_password(password: str) -> str:
     """Hash the password using the bcrypt module"""
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+
+def _generate_uuid() -> str:
+    """Generate string representations of a new UUID"""
+    return str(uuid4())
 
 
 class Auth:
