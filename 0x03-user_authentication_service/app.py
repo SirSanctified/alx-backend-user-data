@@ -27,6 +27,7 @@ def users():
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login():
+    """Login user"""
     email, password = request.form.get('email'), request.form.get('password')
     if AUTH.valid_login(email, password):
         response = jsonify({"email": email, "message": "logged in"})
@@ -37,6 +38,7 @@ def login():
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
+    """Log out user"""
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if user is not None:
@@ -47,6 +49,7 @@ def logout():
 
 @app.route('/profile', methods=['GET'], strict_slashes=False)
 def profile():
+    """Get user profile"""
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if user is not None:
@@ -56,6 +59,7 @@ def profile():
 
 @app.route('/reset_password ', methods=['POST'], strict_slashes=False)
 def get_reset_password_token():
+    """Get password reset token"""
     email = request.form.get("email")
     reset_token = None
     try:
@@ -69,15 +73,19 @@ def get_reset_password_token():
 
 @app.route('/reset_password ', methods=['PUT'], strict_slashes=False)
 def update_password():
+    """Update password"""
     email = request.form.get("email")
     reset_token = request.form.get("reset_token")
-    password = request.form.get("new_password")
-
+    new_password = request.form.get("new_password")
+    is_password_changed = False
     try:
-        AUTH.update_password(reset_token, password)
-        return jsonify({"email": email, "message": "Password updated"})
+        AUTH.update_password(reset_token, new_password)
+        is_password_changed = True
     except ValueError:
+        is_password_changed = False
+    if not is_password_changed:
         abort(403)
+    return jsonify({"email": email, "message": "Password updated"})
 
 
 if __name__ == "__main__":
